@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: ./backend
+    command: uvicorn main:app --host 0.0.0.0 --port 5000 --workers 4
+    ports:
+      - "5000:5000"
+    networks:
+      - web
+
+# TODO add front end.
+
+networks:
+  web:
