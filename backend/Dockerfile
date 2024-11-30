@@ -11,7 +11,7 @@ RUN apt update && apt upgrade -y && apt install -y --no-install-recommends \
 # Set work directory
 WORKDIR /app
 
-# Copy requirements and install dependencies
+# Install dependencies
 COPY ./requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
