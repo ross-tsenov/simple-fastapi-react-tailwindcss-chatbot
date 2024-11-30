@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import random
+import time
 from pathlib import Path
 from typing import Any, Hashable, Protocol
 
@@ -59,7 +60,9 @@ class LLMModel(Protocol):
     async def unload(self) -> None:
         """Will unload model from the memmory or disconnect from the service/source."""
 
-    async def predict(self, messages: list[Message], metadata: dict[Hashable, Any]) -> Message:
+    async def predict(
+        self, messages: list[Message], metadata: dict[Hashable, Any]
+    ) -> Message:
         """Will generate new message based on current message history and `metadata`."""
 
 
@@ -68,7 +71,9 @@ class FakeLLMModel:
 
     def __init__(self, path_to_fake_responses: Path | None = None) -> None:
         self.path_to_fake_responses = (
-            Path.cwd() / "misc" / "llm_responses.json" if path_to_fake_responses is None else path_to_fake_responses
+            Path.cwd() / "misc" / "llm_responses.json"
+            if path_to_fake_responses is None
+            else path_to_fake_responses
         )
         self.is_loaded = False
         self.responses: list[str] = list()
@@ -83,10 +88,14 @@ class FakeLLMModel:
         self.responses.clear()
         self.is_loaded = False
 
-    async def predict(self, messages: list[Message], metadata: dict[Hashable, Any]) -> Message:
+    async def predict(
+        self, messages: list[Message], metadata: dict[Hashable, Any]
+    ) -> Message:
         if not self.is_loaded:
             raise ModelNotLoadedError(self.name, f"Model {self.name} was not loaded.")
 
+        # Emulate inferencing time.
+        time.sleep(random.random() * 5)
         return Message(
             role="assistant",
             content=random.choice(self.responses),

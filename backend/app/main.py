@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from data import ChatRequest, ChatResponse
 from fastapi import FastAPI, HTTPException, Response
+from fastapi.middleware.cors import CORSMiddleware
 from model import (
     ModelError,
     ModelNotFoundError,
@@ -23,7 +24,16 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-@app.get("/health")
+app.add_middleware(
+    middleware_class=CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/api/health")
 async def health_check() -> Response:
     """Returns Healthy status message."""
 
@@ -36,11 +46,14 @@ async def health_check() -> Response:
     )
 
 
-@app.post("/chat")
+@app.post("/api/chat")
 async def chat(chat_request: ChatRequest) -> ChatResponse:
     try:
         model = await model_provider(chat_request.model)
-        response_message = await model.predict(chat_request.messages, chat_request.metadata)
+        response_message = await model.predict(
+            messages=chat_request.messages,
+            metadata=chat_request.metadata,
+        )
     except ModelNotFoundError as error:
         raise HTTPException(
             status_code=404,
