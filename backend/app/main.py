@@ -1,15 +1,23 @@
-from fastapi import FastAPI, Response
-from pydantic import BaseModel
 from contextlib import asynccontextmanager
-from pathlib import Path
-from data import read_history
+
+from data import ChatRequest, ChatResponse
+from fastapi import FastAPI, HTTPException, Response
+from model import (
+    ModelError,
+    ModelNotFoundError,
+    load_all_models,
+    model_provider,
+    unload_all_models,
+)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Loads or creates `history.json` that stores message history before API starts."""
-    await read_history()
+    """Loads all models on startup, and then unloads on shutdown."""
+
+    await load_all_models()
     yield
+    await unload_all_models()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -18,20 +26,31 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/health")
 async def health_check() -> Response:
     """Returns Healthy status message."""
+
     return Response(
-            content=None,
-            status_code=200,
-            headers=None,
-            media_type=None,
-            background=None,
-        )
-
-
-@app.get("/messages/")
-async def get_messages(skip: int = 0, limit: int = 10) -> Response:
-    return {"skip": skip, "limit": limit}
+        content=None,
+        status_code=200,
+        headers=None,
+        media_type=None,
+        background=None,
+    )
 
 
 @app.post("/chat")
-async def health_check() -> Response:
-    return {"output": "hello"}
+async def chat(chat_request: ChatRequest) -> ChatResponse:
+    try:
+        model = await model_provider(chat_request.model)
+        response_message = await model.predict(chat_request.messages, chat_request.metadata)
+    except ModelNotFoundError as error:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Model named `{error.model_name}` does not exist please verify.",
+        )
+    except ModelError as error:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Unexpected model error, please verify your request body.",
+        )
+    return ChatResponse(
+        message=response_message,
+    )
