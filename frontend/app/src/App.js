@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 /**
  * Backend API URL.
  */
-const BACKEND_URL = 'http://localhost:5000/api';
+const BACKEND_URL = '/api';
 
 /**
  * Renders a single chat message.

@@ -26,14 +26,14 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     middleware_class=CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-@app.get("/api/health")
+@app.get("/health")
 async def health_check() -> Response:
     """Returns Healthy status message."""
 
@@ -46,7 +46,7 @@ async def health_check() -> Response:
     )
 
 
-@app.post("/api/chat")
+@app.post("/chat")
 async def chat(chat_request: ChatRequest) -> ChatResponse:
     try:
         model = await model_provider(chat_request.model)
