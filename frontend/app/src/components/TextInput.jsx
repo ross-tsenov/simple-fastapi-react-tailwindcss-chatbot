@@ -7,16 +7,16 @@
  * @returns {JSX.Element}
  */
 function TextInput({ value, onChange, inputRef }) {
-    return (
-      <input
-        type="text"
-        ref={inputRef}
-        className="flex-grow border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-        placeholder="Type your message..."
-        value={value}
-        onChange={onChange}
-      />
-    );
-  }
+  return (
+    <input
+      type="text"
+      ref={inputRef}
+      className="flex-grow w-0 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+      placeholder="Type your message..."
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
 
 export default TextInput
