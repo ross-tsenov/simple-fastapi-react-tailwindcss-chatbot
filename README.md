@@ -16,8 +16,8 @@ This project is a web application featuring a FastAPI backend and a React fronte
 1. **Clone the Repository**
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/ross-tsenov/simple-fastapi-react-tailwindcss-chatbot.git
+   cd simple-fastapi-react-tailwindcss-chatbot
    ```
 
 2. **Start the Application**
