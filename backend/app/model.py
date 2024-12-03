@@ -95,7 +95,7 @@ class FakeLLMModel:
             raise ModelNotLoadedError(self.name, f"Model {self.name} was not loaded.")
 
         # Emulate inferencing time.
-        time.sleep(random.random() * 5)
+        time.sleep(random.random() * 2)
         return Message(
             role="assistant",
             content=random.choice(self.responses),
