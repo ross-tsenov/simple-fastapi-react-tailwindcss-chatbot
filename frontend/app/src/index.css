@@ -2,13 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  /* Message Container */
+  .message-container {
+    @apply my-2 flex;
+  }
+
+  /* Message Bubble */
+  .message-bubble {
+    @apply rounded-2xl p-2 max-w-xs break-words text-white;
+  }
+
+  /* User Message */
+  .user-message {
+    @apply bg-cyan-500;
+  }
+
+  /* Assistant Message */
+  .assistant-message {
+    @apply bg-teal-500;
+  }
+
+  /* Input Field */
+  .input-field {
+    @apply flex-grow w-0 border border-gray-600 bg-gray-700 text-white placeholder-gray-400 rounded-l-2xl p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500;
+  }
+
+  /* Submit Button Base */
+  .submit-button {
+    @apply text-white font-semibold px-4 py-2 rounded-r-2xl focus:outline-none focus:ring-2 flex items-center;
+  }
+
+  /* Submit Button Loading State */
+  .submit-button-loading {
+    @apply bg-red-500 hover:bg-red-600 focus:ring-red-500;
+  }
+
+  /* Submit Button Default State */
+  .submit-button-default {
+    @apply bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500;
+  }
+}
+
 body {
-  margin: 0;
+  @apply m-0 antialiased;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 code {

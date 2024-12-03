@@ -8,10 +8,8 @@ function SubmitButton({ loading }) {
     return (
         <button
             type="submit"
-            className={`${loading
-                ? 'bg-red-500 hover:bg-red-600 focus:ring-red-500'
-                : 'bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500'
-                } text-white font-semibold px-4 py-2 rounded-r-lg focus:outline-none focus:ring-2 flex items-center`}
+            className={`submit-button ${loading ? 'submit-button-loading' : 'submit-button-default'
+                }`}
         >
             {loading ? (
                 <>

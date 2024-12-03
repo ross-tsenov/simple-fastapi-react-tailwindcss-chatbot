@@ -6,14 +6,13 @@
  */
 function MessageBox({ message }) {
     const isUser = message.role === 'user';
-    const messageBgColor = isUser ? 'bg-cyan-500' : 'bg-teal-500';
 
     return (
         <div
-            className={`my-2 flex ${isUser ? 'justify-end' : 'justify-start'}`}
+            className={`message-container ${isUser ? 'justify-end' : 'justify-start'}`}
         >
             <div
-                className={`rounded-lg p-2 max-w-xs break-words ${messageBgColor} text-white`}
+                className={`message-bubble ${isUser ? 'user-message' : 'assistant-message'}`}
             >
                 {message.content}
             </div>
